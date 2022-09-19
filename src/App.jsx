@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
-const SECRET = import.meta.env.VITE_SECRET
+import { Route , BrowserRouter as Router, Routes } from 'react-router-dom'
+import Welcome from '../src/pages/Welcome'
+import Quiz from './pages/Quiz'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -20,9 +23,14 @@ function App() {
     retrieveAPIKey();
 }, [])
   return (
-    <div className="App">
-      <h1>{SECRET}</h1>
+    <Router>
+    <div>
+      <Routes>
+      <Route path="/" exact element={<Welcome />} />
+      <Route path="/quiz" element={< Quiz/>} />
+      </Routes>
     </div>
+   </Router>
   )
 }
 
