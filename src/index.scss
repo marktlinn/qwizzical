@@ -1,6 +1,8 @@
 //Variables
 //colours
-$background-dark: rgb(23, 23, 28);
+$background-dark: rgb(21, 24, 28);
+$button-color: rgb(125, 24, 125);
+$button-hover: rgba(139, 25, 139, 0.986);
 
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -18,8 +20,40 @@ a {
 
 body {
   margin: 0;
-}
-h1{
-  color: black;
+  background-color: $background-dark;
+  color: #fff;
+  // background: url('../public/blob5.svg') $background-dark no-repeat left 60vh  / 500px, url('../public/blobs.svg') blue no-repeat bottom center / 500px;
+  background-image: url('../public/blob5.svg'), url('../public/blobs.svg');
+  background-repeat: no-repeat;
+  background-position: left 60vh, top right;
+  background-size: 500px;
 }
 
+.welcome-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #fff;
+  max-width: 900px;
+  height: 500px;
+  margin:  5rem auto;
+}
+
+.welcome-card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button{
+  border: none;
+  border-radius: .4rem;
+  background-color: $button-color;
+  color: #fff;
+  padding: 1rem 1.3rem;
+}
+
+button:hover{
+  background-color: $button-hover;
+
+}

@@ -8,9 +8,12 @@ export default function Welcome() {
     }
 
     return (
-        <div className='Welcome-page'>
-            <h1>Welcome page</h1>
+        <div className="welcome-page">
+            <div className='welcome-card'>
+            <h1>Qwizzical</h1>
+            <p>Welcome to Qwizzical, the daily quiz app. Please click the button below to start your daily quiz.</p>
             <Link to="/quiz"><button>Go to Quiz</button></Link>
+            </div>
         </div>
     )
 
