@@ -1,9 +1,12 @@
-import {React, useEffect, useContext} from 'react'
+import React, { useEffect, useContext, useState} from 'react'
+import { TokenContext } from '../context/TokenContext';
 
-const apiToken = useContext(apiTokenContext);
-const [questions, setQuestions] = useState(null)
 
-useEffect(()=>{
+
+export default function Question (){
+  const [questions, setQuestions] = useState(null)
+  const { apiToken } = useContext(TokenContext)
+  useEffect(()=>{
     async function getQuestions(){
       try {
         if(apiToken){
@@ -19,10 +22,9 @@ useEffect(()=>{
     }
     getQuestions()
   }, [])
-export default function Question (){
-    return (
-        <div>
-            <h3></h3>
-        </div>
-    )
+  return (
+      <div>
+          <h3>{apiToken}</h3>
+      </div>
+  )
 }
