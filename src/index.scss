@@ -28,6 +28,7 @@ body {
   background-repeat: no-repeat;
   background-position: left 65vh, top right;
   background-size: 500px;
+  padding: 5rem;
 }
 
 .welcome-page{
@@ -71,4 +72,71 @@ body {
   }
 }
 
+
+.question-card{
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+  padding-right: 3rem;
+  margin: auto;
+
+  h3{
+    margin: 0;
+    padding:1rem;
+    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+  }
+  li{
+  list-style: none;
+  }
+  .question-block{
+    margin-bottom: 2.5rem;
+  }
+  li{
+    text-align: center;
+    font-size: 1.3rem;
+  }
+  .answer-btns{
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    gap: 7px;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 10px;
+
+    button{
+      padding: .7rem;
+      color: #fff;
+      border: none;
+      border-radius: .3rem;
+      background-color: $button-color;
+      box-shadow: 1px 1px 2px rgb(25, 5, 25);
+      width: 80%;
+      line-height: 1.2rem;
+      text-align: center;
+      margin:auto;
+      height: 3.5rem;
+      width: 10rem;
+    }
+
+    button:hover{
+      background-color: $button-hover;
+      box-shadow: 1px 1px 4px rgb(63, 13, 63);
+
+    }
+  }
+
+  hr{
+    margin-top: 1.5rem;
+    
+    color: white;
+    width: 100%;
+  }
+  
+}
 

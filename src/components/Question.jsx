@@ -8,7 +8,7 @@ export default function Question (){
   const [questions, setQuestions] = useState(null);
   const [correctAnswers, setCorrectAnswers] = useState(null)
   const [choices, setChoices] = useState([])
-  
+  const [selectedAnswer, setSelectedAnswer] = ([])
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -48,12 +48,16 @@ export default function Question (){
 
   return (
       <div className='question-card'>
+        <h3>Today's Questions</h3>
         {questions && <ul>
             {questions.map((question, index)=> {
             return (
-            <div>
+            <div className='question-block'>
               <li>{question}</li>
-              {shuffleArray(choices[index]).map((elem)=> <button>{elem}</button>)}
+              <div className='answer-btns'>
+                {shuffleArray(choices[index]).map((elem)=> <button>{elem}</button>)}
+              </div>
+                <hr/>
             </div>
             )})}
         </ul>}
