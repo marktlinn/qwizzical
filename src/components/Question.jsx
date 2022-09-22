@@ -4,11 +4,9 @@ import { TokenContext } from '../context/TokenContext';
 
 
 export default function Question (){
-  const { apiToken } = useContext(TokenContext)
-  const [questions, setQuestions] = useState(null);
-  const [correctAnswers, setCorrectAnswers] = useState(null)
-  const [choices, setChoices] = useState([])
-  const [selectedAnswer, setSelectedAnswer] = ([])
+  const { correctAnswers, choices, questions } = useContext(TokenContext)
+  const [ answerSelection, setAnswerSelection ] = useState([]) 
+  const [ selectorBtn, setSelectorBtn ] = useState({0:false, 1:false, 2:false, 3:false, 4:false})
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -18,34 +16,19 @@ export default function Question (){
     }
     return array
   }
-  
 
-  useEffect(()=>{
-    const abortController = new AbortController();
-    async function getQuestions(){
-      try {
-        if(apiToken){
-          const questionsRaw = await fetch(`https://opentdb.com/api.php?amount=5&category=23&difficulty=medium&type=multiple&${apiToken}`, { signal: abortController.signal});
-          const data = await questionsRaw.json();
-          const results = await data.results;
-          setQuestions(results.map(elem=> elem.question));
-          setChoices(results.map(elem=> [...elem.incorrect_answers, elem.correct_answer]))
-          setCorrectAnswers(results.map(elem=> elem.correct_answer))
-        }
-        
-      } catch (error) {
-        if(error.name === 'AbortError'){ 
-          console.log('fetch aborted')
-        }
-        else{
-          console.log(`Error with fetching questions: ${error}`)
-        }
-      }
+  const btnSelected = (e, index) => {
+    e.preventDefault();
+    if(selectorBtn[index] === false){
+      selectorBtn[index] = true;
     }
-    getQuestions()
-    return ()=> abortController.abort()
-  }, [apiToken])
-
+    else {
+      selectorBtn[index] = false;
+    }
+    // setAnswerSelection(prev=> [...prev, e.target.textContent])
+    // console.log(selectorBtn[index])
+  }
+  
   return (
       <div className='question-card'>
         <h3>Today's Questions</h3>
@@ -55,7 +38,7 @@ export default function Question (){
             <div className='question-block'>
               <li>{question}</li>
               <div className='answer-btns'>
-                {shuffleArray(choices[index]).map((elem)=> <button>{elem}</button>)}
+                {shuffleArray(choices[index]).map((elem)=> <button onClick={e=> btnSelected(e, index)}>{elem}</button>)}
               </div>
                 <hr/>
             </div>
