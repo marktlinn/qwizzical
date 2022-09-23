@@ -3,6 +3,7 @@
 $background-dark: rgb(21, 24, 28);
 $button-color: rgb(125, 24, 125);
 $button-hover: rgba(139, 25, 139, 0.986);
+$button-selected: #1740ba;
 
 //fonts
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
@@ -122,6 +123,10 @@ body {
       margin:auto;
       height: 3.5rem;
       width: 10rem;
+    }
+
+    .btn-selected{
+      background-color: $button-selected;
     }
 
     button:hover{
