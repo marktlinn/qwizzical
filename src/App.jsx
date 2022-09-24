@@ -7,6 +7,7 @@ import Quiz from './pages/Quiz'
 
 function App() {
   //setting states
+  const [questions, setQuestions] = useState(null)
   const [apiToken, setApiToken] = useState(()=>{
     if(localStorage.getItem('token')){
       return (localStorage.getItem('token'));
@@ -16,7 +17,6 @@ function App() {
     }
   })
   // const [questions, setQuestions] = useState(null)
-  const [ideas, setIdeas] = useState(null)
   // fetching the token if it doesn't exist
   // useRef use to block multiples calls for tokens.
   if(!apiToken){
@@ -52,44 +52,44 @@ function App() {
       const request = await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
       const data = await request.json();
       const newToken = await data.token;
+      console.log('fetched new data:',data)
       return newToken;
-      console.log(request)
     }
 
   //fetch the questions using the retrieved apiToken;
-
-  if(!ideas){
+  const effectFatto = useRef(false)
     useEffect(()=>{
-      if(apiToken){
-        async function getQuestions(){
-        try {
-          console.log('getting questions')
-          const questionsRaw = await fetch(`https://opentdb.com/api.php?amount=5&category=23&difficulty=medium&type=multiple&token=${apiToken}`);
-          const data = await questionsRaw.json();
-          if(data.response_code === 4){
-            console.log('here')
-            localStorage.setItem('token', refetchToken(apiToken))
-          } else{
-          const questions = await data.results.map(elem=> (
-            {
-              questions: elem.question,
-              answers: [...elem.incorrect_answers, elem.correct_answer].sort(()=> Math.random() -0.5),
-              correctAnswer: elem.correct_answer,
-              selected: false
+      if(!questions && effectFatto.current === false){
+        if(apiToken){
+          async function getQuestions(){
+          try {
+            console.log('getting questions')
+            const questionsRaw = await fetch(`https://opentdb.com/api.php?amount=5&category=23&difficulty=medium&type=multiple&token=${apiToken}`);
+            const data = await questionsRaw.json();
+            if(data.response_code === 4 || data.response_code === 3){
+              localStorage.setItem('token', refetchToken(apiToken))
             }
-          ))
-          console.log('questions: ',questions)
+              const questions = await data.results.map(elem=> (
+                {
+                  questions: elem.question,
+                  answers: [...elem.incorrect_answers, elem.correct_answer].sort(()=> Math.random() -0.5),
+                  correctAnswer: elem.correct_answer,
+                  selected: false
+                }))
+                setQuestions(questions)
+          } catch (error) {
+            console.log(`Error with question fetch: ${error.message}`);
+          }
         }
-        } catch (error) {
-          console.log(`Error with question fetch: ${error.message}`);
+        getQuestions();
+        return ()=>{
+            console.log('done')
+            effectFatto.current = true;
         }
       }
-      getQuestions();
     }
     }, [apiToken])
-  }
-
-  console.log(ideas)
+  console.log('questions', questions)
   // console.log(questions)
   return (
       <Router>
