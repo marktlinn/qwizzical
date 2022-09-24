@@ -69,14 +69,13 @@ function App() {
             if(data.response_code === 4 || data.response_code === 3){
               localStorage.setItem('token', refetchToken(apiToken))
             }
-              const questions = await data.results.map(elem=> (
-                {
-                  questions: elem.question,
-                  answers: [...elem.incorrect_answers, elem.correct_answer].sort(()=> Math.random() -0.5),
-                  correctAnswer: elem.correct_answer,
-                  selected: false
-                }))
-                setQuestions(questions)
+            const questions = await data.results.map(elem=> ({
+                questions: elem.question,
+                answers: [...elem.incorrect_answers, elem.correct_answer].sort(()=> Math.random() -0.5),
+                correctAnswer: elem.correct_answer,
+                selected: false
+              }))
+              setQuestions(questions)
           } catch (error) {
             console.log(`Error with question fetch: ${error.message}`);
           }
