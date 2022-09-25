@@ -1,13 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
-import { Route , BrowserRouter as Router, Routes } from 'react-router-dom'
-// pages and components
-import Welcome from '../src/pages/Welcome'
-import Quiz from './pages/Quiz'
+import { createContext, useState, useEffect, useRef } from "react";
 
-function App() {
-  
-  //setting states
-  const [questions, setQuestions] = useState([])
+const QuestionDataContext = createContext();
+
+export const  QuestionDataContextProvider = ({children}) => {
+  const [questions, setQuestions] = useState(null)
   const [apiToken, setApiToken] = useState(()=>{
     if(localStorage.getItem('token')){
       return (localStorage.getItem('token'));
@@ -47,16 +43,19 @@ function App() {
     }, [])
   } 
 
-    async function refetchToken(token){
-      console.log('fetching a new token')
-      const request = await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
-      const data = await request.json();
-      const newToken = await data.token;
-      localStorage.setItem('token', newToken)
-    }
+  async function refetchToken(token){
+    console.log('fetching a new token')
+    const request = await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
+    const data = await request.json();
+    const newToken = await data.token;
+    console.log('fetched new data:',data)
+    return newToken;
+  }
 
   //fetch the questions using the retrieved apiToken;
+  const effectFatto = useRef(false)
     useEffect(()=>{
+      if(!questions && effectFatto.current === false){
         if(apiToken){
           async function getQuestions(){
           try {
@@ -64,8 +63,7 @@ function App() {
             const questionsRaw = await fetch(`https://opentdb.com/api.php?amount=5&category=23&difficulty=medium&type=multiple&token=${apiToken}`);
             const data = await questionsRaw.json();
             if(data.response_code !== 0){
-              const newToken = refetchToken(apiToken)
-              console.log('new token is', newToken)
+              localStorage.setItem('token', refetchToken(apiToken))
             }
             const questions = await data.results.map(elem=> ({
                 questions: elem.question,
@@ -81,22 +79,17 @@ function App() {
         getQuestions();
         return ()=>{
             console.log('done')
+            effectFatto.current = true;
         }
       }
+    }
     }, [apiToken])
-
-  return (
-      <Router>
-        <div>
-            <Routes>
-              <Route path="/" exact element={<Welcome />} />
-              <Route path="/quiz" element={< Quiz
-              questions={questions}
-              />} />
-            </Routes>
-        </div>
-    </Router>
-  )
+    console.log(questions)
+    return (
+        <QuestionDataContext.Provider value={questions}>
+            {children}
+        </QuestionDataContext.Provider>
+    )
 }
 
-export default App
+export default QuestionDataContext
