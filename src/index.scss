@@ -76,24 +76,25 @@ body {
 
 .question-card{
   border: 1px solid white;
+  border-radius: .5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   max-width: 95%;
-  padding-right: 3rem;
-  margin: auto;
+  padding: 2rem 4rem 2rem 2rem;
 
   h3{
-    margin: 0;
+    margin: auto;
     padding:1rem;
     font-weight: 700;
     font-size: 1.6rem;
     line-height: 1.9rem;
+    text-align: center;
   }
-  // li{
-  // list-style: none;
-  // }
+  li{
+  list-style: none;
+  }
   .question-block{
     margin-bottom: 2.5rem;
   }
@@ -103,12 +104,12 @@ body {
   }
   .answer-btns{
     display: grid;
-    grid-template-columns: 1fr 1fr ;
-    gap: 7px;
+    grid-template-columns: 1fr 1fr 1fr 1fr ;
+    gap: .7rem;
     align-items: center;
     justify-content: center;
     margin: auto;
-    margin-top: 10px;
+    margin-top: 1rem;
 
     button{
       padding: .7rem;
