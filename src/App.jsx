@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Route , BrowserRouter as Router, Routes } from 'react-router-dom'
+import { nanoid } from 'nanoid'
 // pages and components
 import Welcome from '../src/pages/Welcome'
 import Quiz from './pages/Quiz'
@@ -8,6 +9,7 @@ function App() {
   
   //setting states
   const [questions, setQuestions] = useState([])
+  const [answers, setAnswers] = useState([])
   const [apiToken, setApiToken] = useState(()=>{
     if(localStorage.getItem('token')){
       return (localStorage.getItem('token'));
@@ -52,7 +54,8 @@ function App() {
       const request = await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
       const data = await request.json();
       const newToken = await data.token;
-      localStorage.setItem('token', newToken)
+      return newToken;
+      // localStorage.setItem('token', newToken)
     }
 
   //fetch the questions using the retrieved apiToken;
@@ -64,16 +67,26 @@ function App() {
             const questionsRaw = await fetch(`https://opentdb.com/api.php?amount=5&category=23&difficulty=medium&type=multiple&token=${apiToken}`);
             const data = await questionsRaw.json();
             if(data.response_code !== 0){
-              const newToken = refetchToken(apiToken)
+              console.log(data.response_code)
+              const newToken = await refetchToken(apiToken)
+              localStorage.setItem('token', JSON.stringify(newToken))
               console.log('new token is', newToken)
             }
-            const questions = await data.results.map(elem=> ({
-                questions: elem.question,
-                answers: [...elem.incorrect_answers, elem.correct_answer].sort(()=> Math.random() -0.5),
-                correctAnswer: elem.correct_answer,
-                selected: false
-              }))
-              setQuestions(questions)
+            setQuestions(()=>{
+              return data.results.map(questions => {
+                        
+                const question = questions.question
+                const incorrect = questions.incorrect_answers.map(answer => {
+                    return {value: answer, id: nanoid(), isSelected: false, isCorrect: false};
+                });
+                
+                const correct = {value: questions.correct_answer, id: nanoid(), isSelected: false, isCorrect: true};
+                
+                const allAnswers = [...incorrect, correct].sort(()=>Math.random() -0.5);
+
+                return {question, allAnswers, id: nanoid()}; 
+            });
+        })
           } catch (error) {
             console.log(`Error with question fetch: ${error.message}`);
           }
@@ -84,7 +97,6 @@ function App() {
         }
       }
     }, [apiToken])
-
   return (
       <Router>
         <div>
@@ -92,6 +104,8 @@ function App() {
               <Route path="/" exact element={<Welcome />} />
               <Route path="/quiz" element={< Quiz
               questions={questions}
+              answers= {answers}
+              setAnswsers={setAnswers}
               />} />
             </Routes>
         </div>
