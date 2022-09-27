@@ -9,7 +9,6 @@ function App() {
   
   //setting states
   const [questions, setQuestions] = useState([])
-  const [answers, setAnswers] = useState([])
   const [apiToken, setApiToken] = useState(()=>{
     if(localStorage.getItem('token')){
       return (localStorage.getItem('token'));
@@ -50,12 +49,11 @@ function App() {
   } 
 
     async function refetchToken(token){
-      console.log('fetching a new token')
+      console.log('fetching a new token', token)
       const request = await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
       const data = await request.json();
       const newToken = await data.token;
       return newToken;
-      // localStorage.setItem('token', newToken)
     }
 
   //fetch the questions using the retrieved apiToken;
@@ -69,7 +67,7 @@ function App() {
             if(data.response_code !== 0){
               console.log(data.response_code)
               const newToken = await refetchToken(apiToken)
-              localStorage.setItem('token', JSON.stringify(newToken))
+              // localStorage.setItem('token', newToken)
               console.log('new token is', newToken)
             }
             setQuestions(()=>{
@@ -104,8 +102,6 @@ function App() {
               <Route path="/" exact element={<Welcome />} />
               <Route path="/quiz" element={< Quiz
               questions={questions}
-              answers= {answers}
-              setAnswsers={setAnswers}
               />} />
             </Routes>
         </div>
