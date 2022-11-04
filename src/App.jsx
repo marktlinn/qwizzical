@@ -1,23 +1,26 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, createContext } from 'react'
 import { Route , BrowserRouter as Router, Routes } from 'react-router-dom'
 import { nanoid } from 'nanoid'
 // pages and components
 import Welcome from '../src/pages/Welcome'
 import Quiz from './pages/Quiz'
 
+
+export const gameStatusContext = createContext();
+
+
 function App() {
-  
+  const [startGame, setStartGame] = useState(false)
   //setting states
   const [questions, setQuestions] = useState([])
   const [apiToken, setApiToken] = useState(()=>{
-    if(localStorage.getItem('token')){
-      return (localStorage.getItem('token'));
-    }
-    else {
-      return null;
-    }
+    const localKey = localStorage.getItem('token');
+    console.log(localKey)
+    return localKey !== null ? 
+      JSON.parse(localKey) :
+      null;
   })
-  // const [questions, setQuestions] = useState(null)
+
   // fetching the token if it doesn't exist
   // useRef use to block multiples calls for tokens.
   if(!apiToken){
@@ -31,7 +34,7 @@ function App() {
             const data = await apiKey.json()
             const token = await data.token
               if(token){
-                localStorage.setItem('token', token)
+                localStorage.setItem('token', JSON.stringify(token))
                 return token
               }
         }
@@ -53,7 +56,8 @@ function App() {
       const request = await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
       const data = await request.json();
       const newToken = await data.token;
-      return newToken;
+      localStorage.setItem('token', JSON.stringify(newToken))
+      setApiToken(JSON.stringify(newToken))
     }
 
   //fetch the questions using the retrieved apiToken;
@@ -65,10 +69,9 @@ function App() {
             const questionsRaw = await fetch(`https://opentdb.com/api.php?amount=5&category=23&difficulty=medium&type=multiple&token=${apiToken}`);
             const data = await questionsRaw.json();
             if(data.response_code !== 0){
+              localStorage.removeItem('token');
               console.log(data.response_code)
-              const newToken = await refetchToken(apiToken)
-              // localStorage.setItem('token', newToken)
-              console.log('new token is', newToken)
+              refetchToken(apiToken);
             }
             setQuestions(()=>{
               return data.results.map(questions => {
@@ -98,12 +101,16 @@ function App() {
   return (
       <Router>
         <div>
+          <gameStatusContext.Provider value={[startGame, setStartGame]}>
             <Routes>
-              <Route path="/" exact element={<Welcome />} />
-              <Route path="/quiz" element={< Quiz
-              questions={questions}
-              />} />
+                <Route path="/" exact element={<Welcome />} />
+                <Route path="/quiz" element={
+                < Quiz
+                questions={questions}
+                setQuestions={setQuestions}
+                />} />
             </Routes>
+          </gameStatusContext.Provider>
         </div>
     </Router>
   )

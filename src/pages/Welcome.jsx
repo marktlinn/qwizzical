@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { useContext } from 'react'
+import { gameStatusContext } from '../App'
 export default function Welcome() {
-
-    const routeToQuiz = () => {
-        useNavigate('/quiz')
+    const [startGame, setStartGame] = useContext(gameStatusContext)
+    function handleClick (){
+        setStartGame(true);
     }
 
     return (
@@ -12,7 +13,7 @@ export default function Welcome() {
             <div className='welcome-card'>
             <h1>Qwizzical</h1>
             <p>Welcome to Qwizzical, the daily quiz app. Please click the button below to start your daily quiz.</p>
-            <Link to="/quiz"><button>Go to Quiz</button></Link>
+            <Link onClick={handleClick} to="/quiz"><button>Go to Quiz</button></Link>
             </div>
         </div>
     )
