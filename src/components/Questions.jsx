@@ -25,6 +25,16 @@ export default function Question({ questionsData }) {
         setUserChoices({...userChoices, [index]: value})
     }
 
+    function setBtnStyle (answer, correct){
+        if(!finishGame){
+            return Object.values(userChoices).includes(answer)?
+            'btn-selected' :
+            ''
+        } else if(Object.values(userChoices).includes(answer)){
+            return correct === true ? 'correct' : 'incorrect'
+        }
+    }
+
     return (
         <div >
             {questionsData.map((elem, i)=> (
@@ -40,9 +50,10 @@ export default function Question({ questionsData }) {
                     dangerouslySetInnerHTML={{__html: item.value}} 
                     onClick={(e)=>handleClick(item.value, item.isCorrect, i, e)}
                     className={
-                        Object.values(userChoices).includes(item.value)?
-                        'btn-selected' :
-                        ''
+                        // Object.values(userChoices).includes(item.value)?
+                        // 'btn-selected' :
+                        // ''
+                        setBtnStyle(item.value, item.isCorrect)
                     }
                     ></button>
                 ))}

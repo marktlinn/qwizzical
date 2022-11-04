@@ -131,19 +131,23 @@ body {
       height: 3.5rem;
       width: 10rem;
     }
+    button:hover{
+      background-color: $button-hover;
+      box-shadow: 1px 1px 4px rgb(63, 13, 63);
+    }
 
     .btn-selected{
       background-color: $button-selected;
     }
-
     .btn-selected:hover{
       background-color: $button-selected-hover;
     }
 
-    button:hover{
-      background-color: $button-hover;
-      box-shadow: 1px 1px 4px rgb(63, 13, 63);
-
+    .correct{
+      background: green;
+    }
+    .incorrect{
+      background: red;
     }
   }
 
