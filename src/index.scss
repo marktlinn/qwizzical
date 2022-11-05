@@ -26,14 +26,15 @@ p{
   color: white;
 }
 body {
+  height: 100%;
   margin: 0;
   background-color: $background-dark;
   color: #fff;
   background-image: url('/blob5.svg'), url('/blobs.svg');
   background-repeat: no-repeat;
-  background-position: left 65vh, top right;
+  background-position: left bottom, top right;
   background-size: 500px;
-  padding: 5rem;
+  padding: 5rem 1rem 1rem 1rem;
 }
 
 .welcome-page{
@@ -52,6 +53,7 @@ body {
     align-items: center;
     padding: 3rem;
     border: 1px solid rgb(229, 226, 226);
+    max-width: 800px;
   }
 
   h1{
@@ -81,12 +83,13 @@ body {
 .question-card{
   border: 1px solid white;
   border-radius: .5rem;
+  margin:auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 95%;
-  padding: 2rem 4rem 2rem 2rem;
+  max-width: 800px;
+  padding: 1rem 2rem 2rem 2rem;
 
   h3{
     margin: auto;
@@ -110,7 +113,7 @@ body {
   }
   .answer-btns{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr ;
+    grid-template-columns: 1fr 1fr;
     gap: .5rem;
     align-items: center;
     justify-content: center;
@@ -121,7 +124,7 @@ body {
       padding: .7rem;
       color: #fff;
       border: none;
-      border-radius: .3rem;
+      border-radius: 1rem;
       background-color: $button-color;
       box-shadow: 1px 1px 2px rgb(25, 5, 25);
       width: 80%;
@@ -159,9 +162,34 @@ body {
 
   hr{
     margin-top: 3rem;
-    
     color: white;
-    width: 100%;
+    max-width: 90%;
+  }
+
+  .under-game-display{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+
+    button{
+      width: 12rem;
+      height: 3.5rem;
+      border: 1px solid #102e86;
+      background: $button-selected;
+      font-weight: 600;
+      font-size: 1.2rem;
+      border-radius: 1rem;
+      color: #FFF;
+    }
+    button:hover{
+      background: $button-selected-hover;
+    }
+
+    p{
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
   }
   
 }

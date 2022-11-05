@@ -3,9 +3,10 @@ import { nanoid } from 'nanoid'
 import { gameStatusContext } from '../App'
 
 export default function Question({ questionsData }) {
-    const [startGame, setStartGame] = useContext(gameStatusContext)
+    // const [startGame, setStartGame] = useContext(gameStatusContext)
     const [finishGame, setFinishGame] = useState(false)
-    
+    const [score, setScore] = useState(0);
+
     const [userChoices, setUserChoices] = useState({
         0: '',
         1: '',
@@ -17,12 +18,16 @@ export default function Question({ questionsData }) {
     function handleSubmit(e){
         e.preventDefault();
         setFinishGame(true);
+        // setStartGame(false)
     }
 
     function handleClick(value, correct, index, e){
         e.preventDefault();
         if(!finishGame){
             setUserChoices({...userChoices, [index]: value})
+            if(userChoices[index] === value && correct === true){
+                setScore(prev+1);
+            }; 
         }
         else return
     }
@@ -50,16 +55,6 @@ export default function Question({ questionsData }) {
         // }
     }
 
-    //if game is going:
-        // if item selected add to userChoices at answer block index
-        // item in userChoice at index === answer return 'btn-selected' class
-        // otherwise no class
-    //if game is finished
-        // if userChoices at questionBlock index === answer and correct === true 
-            // return 'correct'
-            // else return 'incorrect' 
-        //  else if correct return class 'missed-correct'
-
     return (
         <div >
             {questionsData.map((elem, i)=> (
@@ -75,9 +70,6 @@ export default function Question({ questionsData }) {
                     dangerouslySetInnerHTML={{__html: item.value}} 
                     onClick={(e)=>handleClick(item.value, item.isCorrect, i, e)}
                     className={
-                        // Object.values(userChoices).includes(item.value)?
-                        // 'btn-selected' :
-                        // ''
                         setBtnStyle(item.value, item.isCorrect, i)
                     }
                     ></button>
@@ -86,7 +78,11 @@ export default function Question({ questionsData }) {
                 <hr />
                 </div>
             ))}
-            <button onClick={handleSubmit}>Submit Answers</button>
+            <div className='under-game-display'>
+                {<p>You scored: {score}/5 correct answers</p>}
+                <button onClick={handleSubmit}>Submit Answers</button>
+            </div>
+
         </div>
     )
 }
