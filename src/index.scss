@@ -144,10 +144,16 @@ body {
     }
 
     .correct{
-      background: green;
+      background: #2bd94e;
+      color: $background-dark;
     }
     .incorrect{
-      background: red;
+      background: #e05050;
+      
+    }
+    .missed-correct{
+        background: #56c46e;
+        color: $background-dark;
     }
   }
 

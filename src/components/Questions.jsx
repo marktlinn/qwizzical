@@ -5,7 +5,7 @@ import { gameStatusContext } from '../App'
 export default function Question({ questionsData }) {
     const [startGame, setStartGame] = useContext(gameStatusContext)
     const [finishGame, setFinishGame] = useState(false)
-
+    
     const [userChoices, setUserChoices] = useState({
         0: '',
         1: '',
@@ -21,19 +21,44 @@ export default function Question({ questionsData }) {
 
     function handleClick(value, correct, index, e){
         e.preventDefault();
-        console.log('value',value, 'correct?', correct, 'index:', index)
-        setUserChoices({...userChoices, [index]: value})
+        if(!finishGame){
+            setUserChoices({...userChoices, [index]: value})
+        }
+        else return
     }
 
-    function setBtnStyle (answer, correct){
+
+    function setBtnStyle (answer, correct, i){
         if(!finishGame){
-            return Object.values(userChoices).includes(answer)?
+            return Object.values(userChoices)[i] === answer?
             'btn-selected' :
             ''
-        } else if(Object.values(userChoices).includes(answer)){
-            return correct === true ? 'correct' : 'incorrect'
+        } 
+        else {
+            if(userChoices[i] === answer && correct === true){
+                return 'correct';
+            } 
+            else if (userChoices[i] === answer && correct === false){
+                return 'incorrect'
+            }
+            else if (correct === true){
+                return 'missed-correct'
+            }
         }
+        // else if(Object.values(userChoices).includes(answer)){
+        //     return correct === true ? 'correct' : 'incorrect'
+        // }
     }
+
+    //if game is going:
+        // if item selected add to userChoices at answer block index
+        // item in userChoice at index === answer return 'btn-selected' class
+        // otherwise no class
+    //if game is finished
+        // if userChoices at questionBlock index === answer and correct === true 
+            // return 'correct'
+            // else return 'incorrect' 
+        //  else if correct return class 'missed-correct'
 
     return (
         <div >
@@ -53,7 +78,7 @@ export default function Question({ questionsData }) {
                         // Object.values(userChoices).includes(item.value)?
                         // 'btn-selected' :
                         // ''
-                        setBtnStyle(item.value, item.isCorrect)
+                        setBtnStyle(item.value, item.isCorrect, i)
                     }
                     ></button>
                 ))}
