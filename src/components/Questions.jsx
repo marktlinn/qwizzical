@@ -1,9 +1,7 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { nanoid } from 'nanoid'
-import { gameStatusContext } from '../App'
 
 export default function Question({ questionsData }) {
-    // const [startGame, setStartGame] = useContext(gameStatusContext)
     const [finishGame, setFinishGame] = useState(false)
     const [score, setScore] = useState(0);
 
@@ -18,7 +16,6 @@ export default function Question({ questionsData }) {
     function handleSubmit(e){
         e.preventDefault();
         setFinishGame(true);
-        // setStartGame(false)
     }
 
     function handleClick(value, correct, index, e){
@@ -50,9 +47,6 @@ export default function Question({ questionsData }) {
                 return 'missed-correct'
             }
         }
-        // else if(Object.values(userChoices).includes(answer)){
-        //     return correct === true ? 'correct' : 'incorrect'
-        // }
     }
 
     return (
@@ -82,7 +76,6 @@ export default function Question({ questionsData }) {
                 {<p>You scored: {score}/5 correct answers</p>}
                 <button onClick={handleSubmit}>Submit Answers</button>
             </div>
-
         </div>
     )
 }

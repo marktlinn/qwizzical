@@ -1,21 +1,18 @@
-import { useState, useEffect, useRef, createContext } from 'react'
-import { Route , BrowserRouter as Router, Routes } from 'react-router-dom'
-import { nanoid } from 'nanoid'
+import { useState } from 'react'
 // pages and components
 import Welcome from '../src/pages/Welcome'
 import Quiz from './pages/Quiz'
-
-
-export const gameStatusContext = createContext();
+// import useFetchToken from './hooks/useFetchToken'
 
 
 function App() {
-  const [startGame, setStartGame] = useState(false)
   //setting states
-  const [questions, setQuestions] = useState([])
+  const [startGame, setStartGame] = useState(false)
+  
+    /*
   const [apiToken, setApiToken] = useState(()=>{
     const localKey = localStorage.getItem('token');
-    console.log(localKey)
+    console.log(localKey) 
     return localKey !== null ? 
       JSON.parse(localKey) :
       null;
@@ -23,24 +20,24 @@ function App() {
 
   // fetching the token if it doesn't exist
   // useRef use to block multiples calls for tokens.
+
   if(!apiToken){
     const effectRan = useRef(false)
     useEffect(()=>{
       if(effectRan.current === false){
-      async function retrieveAPIKey(){
-        try{
-        console.log('fetching APIToken')
-            const apiKey = await fetch("https://opentdb.com/api_token.php?command=request");
-            const data = await apiKey.json()
-            const token = await data.token
-              if(token){
-                localStorage.setItem('token', JSON.stringify(token))
-                return token
-              }
-        }
-        catch (error){
-            console.log(`Error fetching token ${error}`)
-        }
+        async function retrieveAPIKey(){
+          try{
+          console.log('fetching APIToken')
+              const apiKey = await fetch("https://opentdb.com/api_token.php?command=request");
+              const data = await apiKey.json()
+              const token = await data.token
+                if(token){
+                  localStorage.setItem('token', JSON.stringify(token))
+                }
+          }
+          catch (error){
+              console.log(`Error fetching token ${error}`)
+          }
       }
       retrieveAPIKey();
       return ()=> {
@@ -85,7 +82,7 @@ function App() {
                 
                 const allAnswers = [...incorrect, correct].sort(()=>Math.random() -0.5);
 
-                return {question, allAnswers, id: nanoid()}; 
+                return {question, allAnswers}; 
             });
         })
           } catch (error) {
@@ -98,21 +95,16 @@ function App() {
         }
       }
     }, [apiToken])
+*/
   return (
-      <Router>
         <div>
-          <gameStatusContext.Provider value={[startGame, setStartGame]}>
-            <Routes>
-                <Route path="/" exact element={<Welcome />} />
-                <Route path="/quiz" element={
-                < Quiz
-                questions={questions}
-                setQuestions={setQuestions}
-                />} />
-            </Routes>
-          </gameStatusContext.Provider>
+            {!startGame ? 
+            <Welcome 
+              startGame={startGame}
+              setStartGame={setStartGame}
+            /> :
+            <Quiz/>}
         </div>
-    </Router>
   )
 }
 
