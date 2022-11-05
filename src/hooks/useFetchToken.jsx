@@ -41,10 +41,10 @@ function useFetchToken() {
                 });
                 
                 const correct = {value: questions.correct_answer, isCorrect: true};
-                
+                const correctAnswers = {value: questions.correct_answer}
                 const allAnswers = [...incorrect, correct].sort(()=>Math.random() -0.5);
 
-                return {question, allAnswers}; 
+                return {question, allAnswers, correctAnswers}; 
             });
             })
           }catch (error) {
