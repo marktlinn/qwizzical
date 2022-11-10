@@ -30,10 +30,6 @@ body {
   margin: 0;
   background-color: $background-dark;
   color: #fff;
-  background-image: url('/blob5.svg'), url('/blobs.svg');
-  background-repeat: no-repeat;
-  background-position: left bottom, top right;
-  background-size: 500px;
   padding: 5rem 1rem 1rem 1rem;
 }
 
@@ -51,25 +47,27 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3rem;
+    padding: 2.5rem;
     border: 1px solid rgb(229, 226, 226);
     max-width: 800px;
   }
 
   h1{
-    font-size: 6rem;
+    font-size: 4rem;
   } 
   
   p{
-    font-size: 2rem;
+    font-size: 1.8rem;
+    text-align: center;
   }
   
   button{
     border: none;
     border-radius: .4rem;
     background-color: $button-color;
-    font-size: 1.5rem;
     color: #fff;
+    font-weight: 700;
+    font-size: 1.6rem;
     padding: 1.5rem 3rem;
   }
   
@@ -100,39 +98,33 @@ body {
     text-align: center;
     width: 90%;
   }
-  li{
-  list-style: none;
-  }
+
   .question-block{
     margin-bottom: 2.5rem;
-  }
-  span{
-    display: block;
-    text-align: center;
-    font-size: 1.3rem;
   }
   .answer-btns{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: .5rem;
+    gap: .9rem .7rem;
     align-items: center;
     justify-content: center;
     margin: auto;
     margin-top: 1rem;
-    width: 90%;
+    width: 80%;
     button{
       padding: .7rem;
       color: #fff;
+      font-weight: 700;
+      font-size: 1.2rem;
       border: none;
       border-radius: 1rem;
       background-color: $button-color;
       box-shadow: 1px 1px 2px rgb(25, 5, 25);
-      width: 80%;
       line-height: 1.2rem;
       text-align: center;
       margin:auto;
-      height: 3.5rem;
-      width: 10rem;
+      height: 6rem;
+      width: 10.75rem;
     }
     button:hover{
       background-color: $button-hover;
@@ -158,6 +150,12 @@ body {
         background: #56c46e;
         color: $background-dark;
     }
+
+
+  @media screen and (min-width: 500px) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
   }
 
   hr{
@@ -170,15 +168,15 @@ body {
     display:flex;
     justify-content: center;
     align-items: center;
+    padding: 0 1.5rem;
     gap: 2rem;
 
     button{
-      width: 12rem;
-      height: 3.5rem;
       border: 1px solid #102e86;
       background: $button-selected;
-      font-weight: 600;
-      font-size: 1.2rem;
+      font-weight: 700;
+      font-size: 1.4rem;
+      padding: .5rem;
       border-radius: 1rem;
       color: #FFF;
     }
@@ -187,9 +185,26 @@ body {
     }
 
     p{
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       font-weight: 600;
     }
   }
   
+
+}
+
+.blueBlob{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: -10;
+  height: 25rem;
+}
+
+.purpleBlob{
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: -10;
+  height: 40rem;
 }
