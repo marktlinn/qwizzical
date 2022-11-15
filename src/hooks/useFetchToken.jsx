@@ -22,12 +22,10 @@ function useFetchToken() {
         async function getQuestions() {
           setIsLoading(true);
           try {
-            console.log('fetching questions')
             const questionsRaw = await fetch(`https://opentdb.com/api.php?amount=5&category=23&difficulty=medium&type=multiple&token=${apiToken}`);
             const data = await questionsRaw.json();
             if(data.response_code !== 0){
               localStorage.removeItem('token');
-              console.log(data.response_code)
               return setApiToken(null);
             }
             else{
@@ -64,7 +62,6 @@ function useFetchToken() {
     else if (!apiToken) {
       async function retrieveAPIKey(){
             try{
-              console.log('fetching new APIToken')
               const apiKey = await fetch("https://opentdb.com/api_token.php?command=request");
               const data = await apiKey.json()
               const token = await data.token
