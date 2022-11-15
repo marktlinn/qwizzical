@@ -6,7 +6,7 @@ export default function Quiz() {
   const { questions, error, isLoading } = useFetchToken()
     return (
     <div className='question-card'>
-      <h3>Today's Questions</h3>
+      <h3 className='title'>Qwizzical</h3>
       { !questions ? 
       <InfinitySpin 
         width='200'
