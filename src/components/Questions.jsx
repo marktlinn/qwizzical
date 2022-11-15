@@ -16,7 +16,6 @@ export default function Question({ questionsData }) {
     function scoreChecker (){
         const choiceValues = Object.values(userChoices);
         const correctAnswers = questionsData.map(answers=> answers.correctAnswers.value);
-        console.log('choicesArr', choiceValues, 'correctArr',correctAnswers)
         choiceValues.forEach((elem, i)=> {
             if(elem === correctAnswers[i]){
                 setScore(prev=> prev+1);
@@ -32,12 +31,8 @@ export default function Question({ questionsData }) {
 
     function handleClick(value, correct, index, e){
         e.preventDefault();
-        console.log('value', value, 'correct', correct, 'index', index)
         if(!finishGame){
             setUserChoices({...userChoices, [index]: value})
-            // if(userChoices[index] === value && correct === true){
-            //     setScore(prev=> prev+1);
-            // }; 
         }
         else return
     }
