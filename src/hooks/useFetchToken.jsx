@@ -14,9 +14,6 @@ function useFetchToken() {
       null;
   })
 
-  //If API Token fails/receives an error code
-  // retrieve a new token
-
   //Fetch on page load if API Token exist
   useEffect(()=>{
     const abortController = new AbortController();
@@ -31,8 +28,9 @@ function useFetchToken() {
             if(data.response_code !== 0){
               localStorage.removeItem('token');
               console.log(data.response_code)
-              setApiToken(null);
+              return setApiToken(null);
             }
+            else{
             setQuestions(()=>{
               return data.results.map(questions => {
                 const question = questions.question
@@ -45,11 +43,12 @@ function useFetchToken() {
                 const allAnswers = [...incorrect, correct].sort(()=>Math.random() -0.5);
 
                 return {question, allAnswers, correctAnswers}; 
-            });
+              });
             })
+            }
           }catch (error) {
             if (!signal.aborted) {
-            setError(error);
+              setError(error);
             }
           } finally{
             if (!signal.aborted){
@@ -59,6 +58,9 @@ function useFetchToken() {
         }
         getQuestions();
   } 
+
+    //If API Token fails/receives an error code
+    // retrieve a new token And setApiToken to trigger refetch with correct token.
     else if (!apiToken) {
       async function retrieveAPIKey(){
             try{
@@ -68,7 +70,7 @@ function useFetchToken() {
               const token = await data.token
                 if(token){
                   localStorage.setItem('token', JSON.stringify(token))
-                  setApiToken(token)
+                  return setApiToken(token)
                 }
             }catch (error) {
               if (!signal.aborted) {
