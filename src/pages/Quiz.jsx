@@ -1,4 +1,4 @@
-import Question from '../components/Questions';
+import Questions from '../components/Questions';
 import useFetchToken from '../hooks/useFetchToken'
 import { InfinitySpin } from 'react-loader-spinner'
 
@@ -12,7 +12,7 @@ export default function Quiz() {
         width='200'
         color="#9a1b9a"
       /> :
-        <Question questionsData={questions}/>
+        <Questions questionsData={questions}/>
       }
     </div>
   )

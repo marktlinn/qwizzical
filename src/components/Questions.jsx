@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid'
 export default function Question({ questionsData }) {
     const [finishGame, setFinishGame] = useState(false)
     const [score, setScore] = useState(0);
+    const [warnComplete, setWarnComplete] = useState(false)
 
     const [userChoices, setUserChoices] = useState({
         0: '',
@@ -25,9 +26,16 @@ export default function Question({ questionsData }) {
 
     function handleSubmit(e){
         e.preventDefault();
-        setFinishGame(true);
-        scoreChecker()
+        if(Object.values(userChoices).includes('')){
+            setWarnComplete(true)
+        }
+        else if(!Object.values(userChoices).includes('')){
+            setWarnComplete(false)
+            setFinishGame(true);
+            scoreChecker()
+        }
     }
+    
 
     function handleClick(value, correct, index, e){
         e.preventDefault();
@@ -84,6 +92,7 @@ export default function Question({ questionsData }) {
                 {finishGame === true && <p>You scored: {score}/5 correct answers</p>}
                 <button onClick={finishGame === false ? handleSubmit : null}>Submit Answers</button>
             </div>
+            {warnComplete && <p className='warn-complete'>Players must select one answer for each question</p>}
         </div>
     )
 }
