@@ -5,7 +5,7 @@ A history multiple choice quiz app, made using the OpenTriva API, ReactJS, SCSS 
 
 ## Images
 **The Welcome Page
-<img width="452" alt="frontpage" src="https://user-images.githubusercontent.com/88390425/202168257-cfc35e10-2513-4a7b-aa03-e5a326160d62.png">
+<img width="486" alt="frontpage" src="https://user-images.githubusercontent.com/88390425/202169061-525959ff-a6a9-4b97-a498-0ba551ad70ef.png">
 <br/>
 **Selecting Answers
 <img width="1249" alt="selecting" src="https://user-images.githubusercontent.com/88390425/202168358-e4b5a3c9-1fcb-4044-a828-392d9909b795.png">
