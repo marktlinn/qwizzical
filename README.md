@@ -4,6 +4,14 @@ A history multiple choice quiz app, made using the OpenTriva API, ReactJS, SCSS 
 **Link to Qwizzical:** https://qwizzical.netlify.app
 
 ## Images
+
+<h4 align="center">
+In Action
+</h4>
+<p align="center">
+<img width="300" alt="frontpage" src="https://user-images.githubusercontent.com/88390425/206444209-9f0ee480-c24d-42fa-a2ad-e1bd93991bd5.gif">
+</p>
+
 <h4 align="center">
 The Welcome Page
 </h4>
